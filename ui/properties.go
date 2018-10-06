@@ -16,6 +16,7 @@ func (p *Properties) Clone() *Properties {
 }
 
 func (p *Properties) Modify(changes ...interface{}) *Properties {
+
 	if len(changes)%2 != 0 {
 		fmt.Println("argument count should be divisible by 2 (string")
 		return nil
@@ -28,6 +29,7 @@ func (p *Properties) Modify(changes ...interface{}) *Properties {
 			changeFn(p, val)
 		}
 	}
+
 	return p
 }
 

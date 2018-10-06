@@ -23,6 +23,19 @@ func initHexDisplay() {
 		},
 	}
 
+	// HexViewTextBox = ui.NewComponent(
+	// 	"hexviewtextbox",
+	// 	ui.NewPanel(
+	// 		props,
+	// 		ui.NewVerticleScrollbar(
+	// 			props.Clone().Modify(
+	// 				"X", float64(290),
+	// 				"Width", float64(10),
+	// 				"Color", color.NRGBA{55, 35, 55, 255},
+	// 			)),
+	// 	),
+	// )
+
 	HexViewTextBox = ui.NewComponent(
 		"hexviewtextbox",
 		ui.NewPanel(
@@ -31,11 +44,12 @@ func initHexDisplay() {
 				props.Clone().Modify(
 					"X", float64(290),
 					"Width", float64(10),
-					"Color", color.NRGBA{55, 35, 55, 255},
-				)),
+					"Color", color.NRGBA{35, 35, 45, 255},
+				),
+			),
 		),
 	)
-
 	HexViewTextBox.Init()
+
 	DrawManager.Add(HexViewTextBox)
 }

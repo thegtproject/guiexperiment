@@ -9,7 +9,7 @@ var win *pixelgl.Window
 
 func setup() {
 	cfg := pixelgl.WindowConfig{
-		Title:  "Cassini IDA",
+		Title:  "GUI Experiment",
 		Bounds: pixel.R(0, 0, 600, 450),
 		VSync:  true,
 	}

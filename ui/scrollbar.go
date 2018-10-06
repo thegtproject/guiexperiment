@@ -1,6 +1,8 @@
 package ui
 
 import (
+	"fmt"
+
 	"github.com/faiface/pixel"
 )
 
@@ -13,6 +15,7 @@ var _ Element = Panel{}
 
 func (vs VerticleScrollbar) Draw(t pixel.Target) {
 	vs.imd.Draw(t)
+	fmt.Println("asd")
 }
 
 func (vs VerticleScrollbar) Update() bool {
@@ -20,29 +23,33 @@ func (vs VerticleScrollbar) Update() bool {
 	return true
 }
 
-func (vs VerticleScrollbar) Init() {
-	vs.imd.Color = vs.Properties.Color
-	vs.imd.Push(
-		pixel.V(
-			vs.Properties.X,
-			vs.Properties.Y,
-		),
-		pixel.V(
-			vs.Properties.Width,
-			vs.Properties.Height,
-		),
-	)
-	vs.imd.Rectangle(0)
-
+func (vs *VerticleScrollbar) Init() {
 	var ce []Element
+
 	for _, child := range vs.children {
-		child.SetIMD(vs.imd)
+		child.Attach(vs)
 		ce = append(ce, child)
 		defer child.Init()
 	}
 }
+func (vs *VerticleScrollbar) Buffer() {
+
+	vs.imd.Color = vs.Properties.Color
+	vs.imd.Push(
+		pixel.V(
+			vs.Properties.X+vs.parent.Props().X,
+			vs.Properties.Y+vs.parent.Props().Y,
+		),
+		pixel.V(
+			vs.Properties.X+vs.Properties.Width+vs.parent.Props().X,
+			vs.Properties.Y+vs.Properties.Height+vs.parent.Props().Y,
+		),
+	)
+	vs.imd.Rectangle(0)
+}
 
 func NewVerticleScrollbar(props *Properties) Element {
+
 	return &VerticleScrollbar{
 		BasicElement: &BasicElement{
 			Properties: props,

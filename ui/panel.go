@@ -21,6 +21,17 @@ func (p Panel) Update() bool {
 }
 
 func (p Panel) Init() {
+	var ce []Element
+
+	for _, child := range p.children {
+		child.Attach(p)
+		ce = append(ce, child)
+		defer child.Init()
+	}
+}
+
+func (p Panel) Buffer() {
+
 	p.imd.Color = p.Properties.Color
 	p.imd.Push(
 		pixel.V(
@@ -28,25 +39,26 @@ func (p Panel) Init() {
 			p.Properties.Y,
 		),
 		pixel.V(
-			p.Properties.Width,
-			p.Properties.Height,
+			p.Properties.X+p.Properties.Width,
+			p.Properties.Y+p.Properties.Height,
 		),
 	)
 	p.imd.Rectangle(0)
-
-	var ce []Element
 	for _, child := range p.children {
-		child.SetIMD(p.imd)
-		ce = append(ce, child)
-		defer child.Init()
+		child.Buffer()
 	}
 }
 
 func NewPanel(props *Properties, children ...Element) Element {
-	return &Panel{
+	p := &Panel{
 		BasicElement: &BasicElement{
 			Properties: props,
-			children:   children,
 		},
 	}
+	for _, child := range children {
+		p.children = append(p.children, child)
+
+		child.Attach(p)
+	}
+	return p
 }
